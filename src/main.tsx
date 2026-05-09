@@ -1,14 +1,14 @@
-import {StrictMode} from 'react';
 import {createRoot} from 'react-dom/client';
 import App from './App.tsx';
 import './index.css';
 
-window.onerror = function(message, source, lineno, colno, error) {
-  console.error("Global Error Caught:", message, error);
-};
+console.log("React application initializing...");
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-);
+const container = document.getElementById('root');
+if (container) {
+  const root = createRoot(container);
+  root.render(<App />);
+  console.log("React render initiated.");
+} else {
+  console.error("Root element not found");
+}
