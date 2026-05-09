@@ -16,6 +16,6 @@
 
 @layer base {
   body {
-    @apply bg-[family-name:--color-bg-base] text-slate-900 antialiased;
+    @apply bg-(--color-bg-base) text-slate-900 antialiased;
   }
 }
