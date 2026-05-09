@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion } from 'motion/react';
 import { 
   Monitor, 
   Cpu, 
@@ -53,6 +53,10 @@ const FeatureCard = ({ icon: Icon, title, description, delay }: { icon: any, tit
 );
 
 export default function App() {
+  React.useEffect(() => {
+    console.log("ComDoctor App Mounted");
+  }, []);
+
   const handleDownload = () => {
     alert("컴닥터 다운로드 준비 중입니다.");
   };
