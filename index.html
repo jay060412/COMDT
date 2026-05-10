@@ -7,6 +7,13 @@
   </head>
   <body>
     <div id="root"></div>
+    <script>
+      console.log("Index.html checking in...");
+      window.addEventListener('error', function(e) {
+        console.error("Diagnostic error caught:", e.message, e.filename, e.lineno);
+        document.body.insertAdjacentHTML('beforeend', '<div style="color:red; background:white; padding:20px; position:fixed; top:0; z-index:9999;">Error: ' + e.message + '</div>');
+      });
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
