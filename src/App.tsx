@@ -3,42 +3,45 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React from 'react';
-import { motion } from 'framer-motion';
-import { 
-  Monitor, 
-  Cpu, 
-  TrendingUp, 
-  ShieldCheck, 
-  ArrowRight, 
+import type { ComponentType, ElementType, ReactNode } from 'react';
+import {
+  Monitor,
+  Cpu,
+  TrendingUp,
+  ShieldCheck,
+  ArrowRight,
   BarChart3,
-  Waves
+  Waves,
 } from 'lucide-react';
 
-// Animation variants
-const fadeInUp = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { 
-    opacity: 1, 
-    y: 0,
-    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] }
-  }
+type IconComponent = ComponentType<{ size?: number; className?: string }>;
+
+type RevealProps = {
+  as?: ElementType;
+  className?: string;
+  delay?: 1 | 2 | 3 | 4;
+  children: ReactNode;
 };
 
-const staggerContainer = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.2
-    }
-  }
+const Reveal = ({ as: Element = 'div', className, delay, children }: RevealProps) => {
+  const delayClass = delay ? `reveal-delay-${delay}` : '';
+
+  return <Element className={['reveal', delayClass, className].filter(Boolean).join(' ')}>{children}</Element>;
 };
 
-const FeatureCard = ({ icon: Icon, title, description }: { icon: any, title: string, description: string }) => (
-  <motion.div
-    variants={fadeInUp}
+const FeatureCard = ({
+  icon: Icon,
+  title,
+  description,
+  delay,
+}: {
+  icon: IconComponent;
+  title: string;
+  description: string;
+  delay: 1 | 2 | 3 | 4;
+}) => (
+  <Reveal
+    delay={delay}
     className="group relative bg-white p-8 rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
   >
     <div className="w-12 h-12 bg-indigo-50 rounded-2xl flex items-center justify-center text-indigo-600 mb-6 group-hover:bg-indigo-600 group-hover:text-white transition-colors duration-300">
@@ -48,12 +51,12 @@ const FeatureCard = ({ icon: Icon, title, description }: { icon: any, title: str
     <p className="text-slate-500 leading-relaxed text-sm lg:text-base">
       {description}
     </p>
-  </motion.div>
+  </Reveal>
 );
 
 export default function App() {
   const handleDownload = () => {
-    alert("컴닥터 다운로드 준비 중입니다.");
+    alert('컴닥터 다운로드 준비 중입니다.');
   };
 
   return (
@@ -67,7 +70,7 @@ export default function App() {
             </div>
             <span className="font-bold text-lg tracking-tight text-slate-900">컴닥터</span>
           </div>
-          
+
           <div className="flex items-center gap-4 text-xs font-bold tracking-widest text-slate-400 uppercase bg-slate-200/50 px-2.5 py-1 rounded">
             MVP PROTOTYPE v0.1
           </div>
@@ -76,52 +79,45 @@ export default function App() {
 
       <main className="pt-32 pb-24">
         {/* 2. Main Hero Section */}
-        <section className="px-6 mb-32 relative">
+        <section className="px-6 mb-32 relative isolate">
           <div className="max-w-4xl mx-auto text-center relative z-10">
-            <motion.div
-              initial="hidden"
-              animate="visible"
-              variants={staggerContainer}
+            <Reveal as="span" className="inline-block px-4 py-1.5 mb-6 text-sm font-medium text-indigo-600 bg-indigo-50 rounded-full">
+              Simple, Fast, Professional
+            </Reveal>
+
+            <Reveal
+              as="h1"
+              delay={1}
+              className="text-5xl md:text-7xl font-extrabold tracking-tight text-slate-900 mb-6 leading-tight"
             >
-              <motion.span 
-                variants={fadeInUp}
-                className="inline-block px-4 py-1.5 mb-6 text-sm font-medium text-indigo-600 bg-indigo-50 rounded-full"
-              >
-                Simple, Fast, Professional
-              </motion.span>
-              
-              <motion.h1 
-                variants={fadeInUp}
-                className="text-5xl md:text-7xl font-extrabold tracking-tight text-slate-900 mb-6 leading-tight"
-              >
-                내 PC를 위한 <br />
-                <span className="italic text-indigo-600 relative inline-block">
-                  최적의 업그레이드
-                </span>
-              </motion.h1>
+              내 PC를 위한 <br />
+              <span className="italic text-indigo-600 relative inline-block">
+                최적의 업그레이드
+              </span>
+            </Reveal>
 
-              <motion.p 
-                variants={fadeInUp}
-                className="text-lg md:text-xl text-slate-500 max-w-2xl mx-auto leading-relaxed mb-10"
-              >
-                컴닥터는 사용자의 PC 상태를 분석하여 불필요한 지출 없이 <br className="hidden md:block" />
-                꼭 필요한 업그레이드와 관리 방향을 제안합니다.
-              </motion.p>
+            <Reveal
+              as="p"
+              delay={2}
+              className="text-lg md:text-xl text-slate-500 max-w-2xl mx-auto leading-relaxed mb-10"
+            >
+              컴닥터는 사용자의 PC 상태를 분석하여 불필요한 지출 없이 <br className="hidden md:block" />
+              꼭 필요한 업그레이드와 관리 방향을 제안합니다.
+            </Reveal>
 
-              <motion.div variants={fadeInUp} className="flex flex-col items-center gap-4">
-                <button
-                  onClick={handleDownload}
-                  className="group flex items-center gap-2 px-8 py-4 bg-indigo-600 text-white rounded-2xl font-semibold text-lg hover:bg-indigo-700 transition-all duration-300"
-                >
-                  컴닥터 다운로드
-                  <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
-                </button>
-                <div className="flex items-center gap-1.5 text-sm text-slate-400 font-medium">
-                  <span className="text-yellow-500">⚡</span>
-                  설치 후 약 5분 내 기본 진단 완료
-                </div>
-              </motion.div>
-            </motion.div>
+            <Reveal delay={3} className="flex flex-col items-center gap-4">
+              <button
+                onClick={handleDownload}
+                className="group flex items-center gap-2 px-8 py-4 bg-indigo-600 text-white rounded-2xl font-semibold text-lg hover:bg-indigo-700 transition-all duration-300"
+              >
+                컴닥터 다운로드
+                <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+              </button>
+              <div className="flex items-center gap-1.5 text-sm text-slate-400 font-medium">
+                <span className="text-yellow-500">⚡</span>
+                설치 후 약 5분 내 기본 진단 완료
+              </div>
+            </Reveal>
           </div>
 
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-5xl h-[500px] pointer-events-none -z-10">
@@ -133,54 +129,46 @@ export default function App() {
         {/* 3. Features Section */}
         <section className="px-6 mb-32">
           <div className="max-w-7xl mx-auto">
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: "-50px" }}
-              variants={staggerContainer}
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
-            >
-              <FeatureCard 
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <FeatureCard
                 icon={Cpu}
+                delay={1}
                 title="실시간 PC 상태 확인"
                 description="CPU, GPU, 메모리, 저장장치 등 주요 부품 상태를 한눈에 확인합니다."
               />
-              <FeatureCard 
+              <FeatureCard
                 icon={Waves}
+                delay={2}
                 title="병목 및 성능 저하 분석"
                 description="사용자의 PC 사용 패턴을 기반으로 성능 저하 원인을 분석합니다."
               />
-              <FeatureCard 
+              <FeatureCard
                 icon={TrendingUp}
+                delay={3}
                 title="업그레이드 시점 예측"
                 description="단순 견적 추천이 아닌, 실제 사용 환경에 맞는 업그레이드 시점을 제안합니다."
               />
-              <FeatureCard 
+              <FeatureCard
                 icon={BarChart3}
+                delay={4}
                 title="AI 기반 리포트"
                 description="복잡한 하드웨어 정보를 쉽게 이해할 수 있는 자동 분석 리포트로 제공합니다."
               />
-            </motion.div>
+            </div>
           </div>
         </section>
 
         {/* 4. Bottom Statement */}
         <section className="px-6">
           <div className="max-w-4xl mx-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="p-12 lg:p-16 rounded-[40px] bg-white border border-slate-200 text-center shadow-sm"
-            >
+            <Reveal className="p-12 lg:p-16 rounded-[40px] bg-white border border-slate-200 text-center shadow-sm">
               <ShieldCheck size={48} className="mx-auto mb-8 text-indigo-500 opacity-20" />
               <p className="text-xl lg:text-2xl font-semibold text-slate-800 leading-relaxed">
                 “컴닥터는 단순한 PC 견적 추천 서비스를 넘어, <br />
-                사용자의 PC 라이프사이클 전체를 관리하는 <br className="md:hidden" /> 
+                사용자의 PC 라이프사이클 전체를 관리하는 <br className="md:hidden" />
                 <span className="text-indigo-600">PC 모니터링 플랫폼</span>을 목표로 합니다.”
               </p>
-            </motion.div>
+            </Reveal>
           </div>
         </section>
       </main>
