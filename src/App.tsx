@@ -53,7 +53,7 @@ const FeatureCard = ({ icon: Icon, title, description }: { icon: any, title: str
 
 export default function App() {
   const handleDownload = () => {
-    alert("컴닥터 다운로드 준비 중입니다.");
+    window.location.href = "https://github.com/tokkiyashou/Comdoctor/releases/download/v1.0.0/Setup.1.0.0.exe";
   };
 
   return (
